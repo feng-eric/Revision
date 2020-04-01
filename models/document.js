@@ -9,7 +9,13 @@ let documentSchema = new Schema(
     document_name: { type: String },
     description: { type: String },
     fileLink: { type: String },
-    s3_key: { type: String }
+    s3_key: { type: String },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+      }
+    ]
   },
   {
     // createdAt,updatedAt fields are automatically added into records

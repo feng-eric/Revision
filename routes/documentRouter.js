@@ -12,7 +12,6 @@ var upload = multer({ storage: storage });
  * Gets all the documents
  */
 router.get('/', (req,res, next) => {
-    console.log(connection.document.countDocuments())
     connection.document.find(
         {},
         null,
@@ -127,35 +126,42 @@ router.post('/upload/:documentName', upload.single('file'), (req, res) => {
         ACL: "public-read"
     };
     
-    // TODO:
-    // we should check if the same one exists?
-    // Need to make a decision about not allowing or allowing replacement
-
-
     s3bucket.upload(params, (err, data) => {
         if (err) {
             console.log('error')
             res.status(500).json({error: true, Message: err });
         } else {
             res.send({data});
-            var newFileUploaded = {
-                document_name: documentName,
-                description: req.body.description,
-                fileLink: s3FileURL + file.originalname,
-                s3_key: params.Key
-            };
-            var document = new connection.document(newFileUploaded);
-            document.save((err) => {
-                if (err) {
-                    throw err;
+
+            connection.document.updateOne(
+                { s3_key : params.Key },
+                {
+                    $set: {
+                        document_name: documentName,
+                        description: req.body.description,
+                        fileLink: s3FileURL + file.originalname,
+                        s3_key: params.Key
+                    }
+                },
+                { upsert : true },
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    console.log("Saved new doc");
                 }
-                //TODO: Do I even need name lols
-                console.log("Saved Document")
-            });
+
+            )
         }
     });
 });
 
+/**
+ * PUT Request
+ * Request Parameter: objectId
+ * Request Body: description
+ * Edits the description of the document
+ */
 router.put('/edit/:id', (req, res, next) => {
     console.log(req.body);
     connection.document.findByIdAndUpdate(

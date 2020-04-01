@@ -11,10 +11,10 @@ module.exports = {
       { useNewUrlParser: true, useUnifiedTopology: true }),
       function(err) {
         if (err) {
-          console.log("Mongo DB connection failed");
+          console.log('Mongo DB connection failed');
           console.log(err);
         } else {
-          console.log("Mongo DB connection successful.");
+          console.log('Mongo DB connection successful.');
         }
       };
   },
@@ -29,4 +29,5 @@ mongoose.connection.on('error', function() {
 })
 
 
-module.exports.document = require("../models/document");
+module.exports.document = require('../models/document');
+module.exports.comment = require('../models/comment');
