@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const User = require('../models/user')
-const auth = require('../auth/auth');
+var User = require('../models/user')
+var auth = require('../auth/auth');
 
 /**
  * POST Request

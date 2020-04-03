@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router(); 
 var AWS = require("aws-sdk");
-const multer = require("multer");
-const Document = require('../models/Document');
+var multer = require("multer");
+var Document = require('../models/Document');
+var auth = require('../auth/auth');
 
 
 var storage = multer.memoryStorage();
@@ -17,20 +18,24 @@ var upload = multer({ storage: storage });
  * GET Request
  * Gets all the documents
  */
-router.get('/', (req, res, next) => {
-    Document.find(
-        {},
-        null,
-        {
-            sort: { createdAt: 1 }
-        },
-        (err, docs) => {
-            if (err) {
-                return next(err);
+router.get('/', auth, (req, res, next) => {
+    try {
+        Document.find(
+            {},
+            null,
+            {
+                sort: { createdAt: 1 }
+            },
+            (err, docs) => {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(docs);
             }
-            res.status(200).send(docs);
-        }
-    )
+        )
+    } catch (err) {
+        res.status(500).send(err);
+    }
 });
 
 /**
@@ -38,7 +43,7 @@ router.get('/', (req, res, next) => {
  * Request Param: objectId
  * Gets the document based on objectId in the collection
  */
-router.get('/:id', (req, res, next) => {
+router.get('/:id', auth, (req, res, next) => {
     Document.findById(req.params.id, (err, data) => {
         if (err) {
             return next(err);
@@ -52,7 +57,7 @@ router.get('/:id', (req, res, next) => {
  * Request Param: documentId
  * Gets the document based on the documentId
  */
-router.get('/documentId/:documentId', (req, res, next) => {
+router.get('/documentId/:documentId', auth, (req, res, next) => {
     Document.findOne({
         document_id: req.params.documentId
     },
@@ -71,7 +76,7 @@ router.get('/documentId/:documentId', (req, res, next) => {
  * Request Param: s3key, which is the original name of the file
  * Gets the document based on the file name in s3
  */
-router.get('/s3key/:s3key', (req, res, next) => {
+router.get('/s3key/:s3key', auth, (req, res, next) => {
     Document.find(
         {
             s3_key : req.params.s3key
@@ -92,7 +97,7 @@ router.get('/s3key/:s3key', (req, res, next) => {
  * Request Parameter: documentName
  * Gets the document based on the document name passed in as a request parameter
  */
-router.get('/documentName/:documentName', (req, res, next) => {
+router.get('/documentName/:documentName', auth, (req, res, next) => {
     Document.find(
         {
             document_name : req.params.documentName
@@ -113,7 +118,7 @@ router.get('/documentName/:documentName', (req, res, next) => {
  * Request Body: file
  * Uploads the document into the storage and the document metadata into the mongoDB collection
  */
-router.post('/upload/:documentName', upload.single('file'), (req, res) => {
+router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => {
     const file = req.file;
     const documentName = req.params.documentName;
     const s3FileURL = process.env.AWS_UPLOAD_FILE_URL;
@@ -168,7 +173,7 @@ router.post('/upload/:documentName', upload.single('file'), (req, res) => {
  * Request Body: description
  * Edits the description of the document
  */
-router.put('/edit/:id', (req, res, next) => {
+router.put('/edit/:id', auth, (req, res, next) => {
     Document.findByIdAndUpdate(
         req.params.id,
         { $set : { description: req.body.description } },
@@ -187,7 +192,7 @@ router.put('/edit/:id', (req, res, next) => {
  * Request Parameter: objectId
  * Deletes the document
  */
-router.delete('/', (req, res, next) => {
+router.delete('/:id', auth, (req, res, next) => {
     Document.findByIdAndRemove(req.params.id, (err, result) => {
         if (err) {
             return next(err);
