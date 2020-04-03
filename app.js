@@ -9,14 +9,12 @@ var logger = require('morgan');
 require('dotenv').config();
 
 var db = require('./connection/connection');
-
 db.connectDB();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var documentRouter = require('./routes/documentRouter');
 
-// an app object is returned --> think of this as the main app
 var app = express();
 
 // view engine setup

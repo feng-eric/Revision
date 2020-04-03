@@ -25,6 +25,8 @@ let documentSchema = new Schema(
 
 documentSchema.plugin(AutoIncrement, { inc_field: "document_id" });
 
-module.exports = mongoose.model("Document", documentSchema);
+const Document = mongoose.model("Document", documentSchema);
+
+module.exports = Document;
 
 /* The mongoose-sequence creates a commodity collection named 'counters' which keeps track of the auto-incremental number. So during development to reset the go_id back to 1, I just have to drop the counter collection by running db.counters.drop()  */
