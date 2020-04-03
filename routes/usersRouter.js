@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
  * email: String
  * password: String, minimum 10 characters
  */
-router.post('/login', async(req, res) => {
+router.post('/login', async(req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findByCredentials(email, password);
@@ -45,7 +45,9 @@ router.post('/login', async(req, res) => {
     console.log("User is logged in with new session");
     res.send({user, token});
   } catch (err) {
-    res.status(400).send(err);
+    //TODO: figure out error handeling
+    // next(err)
+    // res.status(400).send("bad reqiest");
   }
 })
 
@@ -72,7 +74,7 @@ router.post('/logout', auth, async (req, res) => {
     await req.user.save();
     res.send()
   } catch (err) {
-    res.status(500).send(err);
+    res.status(400).send(err);
   }
 })
 
@@ -88,7 +90,7 @@ router.post('/logout/all', auth, async(req, res) => {
     await req.user.save();
     res.send();
   } catch (err) {
-    res.status(500).send(err);
+    res.status(400).send(err);
   }
 })
 

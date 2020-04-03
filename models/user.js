@@ -37,15 +37,16 @@ let userSchema = new Schema(
 
 userSchema.pre("save", async function (next) {
     const user = this;
+    const salt = 10;
+    
     if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 10);
+        user.password = await bcrypt.hash(user.password, salt);
     }
     next();
 })
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
-
 
     const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
     user.tokens = user.tokens.concat({token});
@@ -57,7 +58,6 @@ userSchema.methods.generateAuthToken = async function() {
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
-    //TODO: Check this line
     const user = await User.findOne({email});
     
     if (!user) {
@@ -67,7 +67,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
     
     if (!isValidPassword) {
-        throw new Error({ error: 'Invalid password'});
+        throw new Error({ error: 'Invalid password'});  
     }
 
     return user;
