@@ -12,8 +12,8 @@ var db = require('./connection/connection');
 db.connectDB();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var documentRouter = require('./routes/documentRouter');
+var usersRouter = require('./routes/usersRouter');
+var documentRouter = require('./routes/documentsRouter');
 
 var app = express();
 

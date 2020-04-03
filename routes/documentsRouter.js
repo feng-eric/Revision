@@ -1,18 +1,24 @@
 var express = require('express');
 var router = express.Router(); 
-var connection = require('../connection/connection');
-const multer = require("multer");
 var AWS = require("aws-sdk");
+const multer = require("multer");
+const Document = require('../models/Document');
+
 
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
 /**
+ * All Routes Requires Authorization To Access
+ */
+
+
+/**
  * GET Request
  * Gets all the documents
  */
-router.get('/', (req,res, next) => {
-    connection.document.find(
+router.get('/', (req, res, next) => {
+    Document.find(
         {},
         null,
         {
@@ -33,7 +39,7 @@ router.get('/', (req,res, next) => {
  * Gets the document based on objectId in the collection
  */
 router.get('/:id', (req, res, next) => {
-    connection.document.findById(req.params.id, (err, data) => {
+    Document.findById(req.params.id, (err, data) => {
         if (err) {
             return next(err);
         }
@@ -47,7 +53,7 @@ router.get('/:id', (req, res, next) => {
  * Gets the document based on the documentId
  */
 router.get('/documentId/:documentId', (req, res, next) => {
-    connection.document.findOne({
+    Document.findOne({
         document_id: req.params.documentId
     },
     (err, data) => {
@@ -66,7 +72,7 @@ router.get('/documentId/:documentId', (req, res, next) => {
  * Gets the document based on the file name in s3
  */
 router.get('/s3key/:s3key', (req, res, next) => {
-    connection.document.find(
+    Document.find(
         {
             s3_key : req.params.s3key
         },
@@ -87,7 +93,7 @@ router.get('/s3key/:s3key', (req, res, next) => {
  * Gets the document based on the document name passed in as a request parameter
  */
 router.get('/documentName/:documentName', (req, res, next) => {
-    connection.document.find(
+    Document.find(
         {
             document_name : req.params.documentName
         },
@@ -133,7 +139,7 @@ router.post('/upload/:documentName', upload.single('file'), (req, res) => {
         } else {
             res.send({data});
 
-            connection.document.updateOne(
+            Document.updateOne(
                 { s3_key : params.Key },
                 {
                     $set: {
@@ -163,8 +169,7 @@ router.post('/upload/:documentName', upload.single('file'), (req, res) => {
  * Edits the description of the document
  */
 router.put('/edit/:id', (req, res, next) => {
-    console.log(req.body);
-    connection.document.findByIdAndUpdate(
+    Document.findByIdAndUpdate(
         req.params.id,
         { $set : { description: req.body.description } },
         { new : true },
@@ -177,8 +182,13 @@ router.put('/edit/:id', (req, res, next) => {
     );
 });
 
+/**
+ * DELETE REQUEST
+ * Request Parameter: objectId
+ * Deletes the document
+ */
 router.delete('/', (req, res, next) => {
-    connection.document.findByIdAndRemove(req.params.id, (err, result) => {
+    Document.findByIdAndRemove(req.params.id, (err, result) => {
         if (err) {
             return next(err);
         }
