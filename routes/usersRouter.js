@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user')
 var auth = require('../auth/auth');
+var { ErrorHandler } = require('../helpers/error');
+var bcrypt = require('bcryptjs')
 
 /**
  * POST Request
@@ -11,16 +13,20 @@ var auth = require('../auth/auth');
  * email: String
  * password: String, minimum 10 characters
  */
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     const user = new User(req.body);
-    await user.save();
+
+    await user.save()
+      .catch((err) => {
+        throw new ErrorHandler(400, err._message);
+      });
     
     const token = await user.generateAuthToken();
     console.log("User is created");
     res.status(201).send({ user, token });
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
   
 })
@@ -35,19 +41,22 @@ router.post('/', async (req, res) => {
 router.post('/login', async(req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findByCredentials(email, password);
+    const user = await User.findOne({email});
 
-    if (!user) {
-      return res.status(401).send({error: 'Login failed'});
-    }
+    if (!user) 
+      throw new ErrorHandler(400, 'Invalid Email');
+    
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) 
+      throw new ErrorHandler(400, 'Invalid Password');
     
     const token = await user.generateAuthToken();
+
     console.log("User is logged in with new session");
     res.send({user, token});
   } catch (err) {
-    //TODO: figure out error handeling
-    // next(err)
-    // res.status(400).send("bad reqiest");
+    next(err);
   }
 })
 
@@ -67,14 +76,18 @@ router.get('/me', auth, async(req, res) => {
  */
 router.post('/logout', auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
-      return token.token != req.token;
+    req.user.tokens = req.user.tokens.filter((tokens) => {
+      return tokens.token != req.token;
     });
 
-    await req.user.save();
-    res.send()
+    await req.user.save()
+      .catch((err) => {
+        throw new ErrorHandler(400, err._message);
+      });
+
+    res.send();
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 })
 
@@ -87,10 +100,15 @@ router.post('/logout/all', auth, async(req, res) => {
   try {
     // At position 0, remove length of tokens array
     req.user.tokens.splice(0, req.user.tokens.length);
-    await req.user.save();
+
+    await req.user.save()
+      .catch((err) => {
+        throw new ErrorHandler(400, err._message);
+      });
+
     res.send();
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 })
 

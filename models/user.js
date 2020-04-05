@@ -47,30 +47,19 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
+    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY, { expiresIn : "12h" });
+    // limits to 5 tokens for user
+    const MAX_TOKENS = 5;
 
-    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
+    if (user.tokens.length >= MAX_TOKENS) 
+        user.tokens.splice(0, 1);
+    
     user.tokens = user.tokens.concat({token});
 
     await user.save();
 
     return token;
     
-}
-
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({email});
-    
-    if (!user) {
-        throw new Error({ error: 'Invalid email address'});
-    }
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    
-    if (!isValidPassword) {
-        throw new Error({ error: 'Invalid password'});  
-    }
-
-    return user;
 }
 
 const User = mongoose.model('User', userSchema);

@@ -4,6 +4,7 @@ var AWS = require("aws-sdk");
 var multer = require("multer");
 var Document = require('../models/Document');
 var auth = require('../auth/auth');
+var { ErrorHandler } = require('../helpers/error');
 
 
 var storage = multer.memoryStorage();
@@ -28,13 +29,13 @@ router.get('/', auth, (req, res, next) => {
             },
             (err, docs) => {
                 if (err) {
-                    return next(err);
+                    return next(new ErrorHandler(400, err.message));
                 }
                 res.status(200).send(docs);
             }
         )
     } catch (err) {
-        res.status(500).send(err);
+        next(err);
     }
 });
 
@@ -46,7 +47,8 @@ router.get('/', auth, (req, res, next) => {
 router.get('/:id', auth, (req, res, next) => {
     Document.findById(req.params.id, (err, data) => {
         if (err) {
-            return next(err);
+            console.log(err);
+            return next(new ErrorHandler(400, err.message));
         }
         res.status(200).json(data);
     });
@@ -64,7 +66,7 @@ router.get('/documentId/:documentId', auth, (req, res, next) => {
     (err, data) => {
         if (err) {
             console.log(err);
-            return;
+            return next(new ErrorHandler(400, err.message));
         }
 
         res.status(200).json(data);
@@ -84,7 +86,7 @@ router.get('/s3key/:s3key', auth, (req, res, next) => {
         (err, data) => {
             if (err) {
                 console.log(err);
-                return;
+                return next(new ErrorHandler(400, err.message));
             }
 
             res.status(200).json(data);
@@ -104,7 +106,7 @@ router.get('/documentName/:documentName', auth, (req, res, next) => {
         },
         (err, data) => {
             if (err) {
-                return next(err);
+                return next(new ErrorHandler(400, err.message));
             }
             res.status(200).json(data);
         
@@ -139,8 +141,8 @@ router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => 
     
     s3bucket.upload(params, (err, data) => {
         if (err) {
-            console.log('error')
-            res.status(500).json({error: true, Message: err });
+            console.log('error uploading to s3')
+            return next(new ErrorHandler(err.statusCode, err.message));
         } else {
             res.send({data});
 
@@ -157,7 +159,7 @@ router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => 
                 { upsert : true },
                 (err) => {
                     if (err) {
-                        throw err;
+                        return next(new ErrorHandler(400, err.message));
                     }
                     console.log("Saved new doc");
                 }
@@ -180,7 +182,7 @@ router.put('/edit/:id', auth, (req, res, next) => {
         { new : true },
         (err, updateDoc) => {
             if (err) {
-                return next(err);
+                return next(new ErrorHandler(err.statusCode, err.message));
             }
             res.status(200).send(updateDoc);
         }
@@ -195,7 +197,7 @@ router.put('/edit/:id', auth, (req, res, next) => {
 router.delete('/:id', auth, (req, res, next) => {
     Document.findByIdAndRemove(req.params.id, (err, result) => {
         if (err) {
-            return next(err);
+            return next(new ErrorHandler(400, err.message));
         }
 
         let s3bucket = new AWS.S3({
@@ -211,7 +213,7 @@ router.delete('/:id', auth, (req, res, next) => {
 
         s3bucket.deleteObject(params, (err, data) => {
             if (err) {
-                console.log(err);
+                return next(new ErrorHandler(err.statusCode, err.message));
             } else {
                 res.send({
                     status: "200",
