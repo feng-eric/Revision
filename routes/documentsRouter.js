@@ -51,9 +51,22 @@ router.get('/:id', auth, (req, res, next) => {
             console.log(err);
             return next(new ErrorHandler(400, err.message));
         }
-        res.status(200).json(data);
+        res.status(200).send(data);
     });
 });
+
+router.get('/user/:userId', auth, (req, res, next) => {
+    Document.find({
+        user_id: req.params.userId
+    },
+    (err, data) => {
+        if (err) {
+            return next(new ErrorHandler(400, err.message));
+        }
+
+        res.status(200).send(data);
+    })
+})
 
 /**
  * GET Request
@@ -70,7 +83,7 @@ router.get('/:id', auth, (req, res, next) => {
 //             return next(new ErrorHandler(400, err.message));
 //         }
 
-//         res.status(200).json(data);
+//         res.status(200).send(data);
 //     })
 // })
 
@@ -90,7 +103,7 @@ router.get('/s3key/:s3key', auth, (req, res, next) => {
                 return next(new ErrorHandler(400, err.message));
             }
 
-            res.status(200).json(data);
+            res.status(200).send(data);
         }
     )
 })
@@ -109,7 +122,7 @@ router.get('/documentName/:documentName', auth, (req, res, next) => {
             if (err) {
                 return next(new ErrorHandler(400, err.message));
             }
-            res.status(200).json(data);
+            res.status(200).send(data);
         
         }
     )
