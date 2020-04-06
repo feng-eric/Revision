@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+// const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 let documentSchema = new Schema(
   {
@@ -10,6 +10,7 @@ let documentSchema = new Schema(
     description: { type: String },
     fileLink: { type: String },
     s3_key: { type: String },
+    user_id: { type: mongoose.Schema.Types.ObjectId },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -23,7 +24,7 @@ let documentSchema = new Schema(
   }
 );
 
-documentSchema.plugin(AutoIncrement, { inc_field: "document_id" });
+// documentSchema.plugin(AutoIncrement, { inc_field: "document_id" });
 
 const Document = mongoose.model("Document", documentSchema);
 

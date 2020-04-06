@@ -27,7 +27,3 @@ mongoose.connection.on('open', function() {
 mongoose.connection.on('error', function() {
   console.error.bind(console, 'MongoDB connection error:')
 })
-
-// module.exports.user = require('../models/user');
-// module.exports.document = require('../models/document');
-// module.exports.comment = require('../models/comment');

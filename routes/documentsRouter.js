@@ -2,13 +2,14 @@ var express = require('express');
 var router = express.Router(); 
 var AWS = require("aws-sdk");
 var multer = require("multer");
-var Document = require('../models/Document');
-var auth = require('../auth/auth');
-var { ErrorHandler } = require('../helpers/error');
-
-
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
+var auth = require('../auth/auth');
+var { ErrorHandler } = require('../helpers/error');
+var Document = require('../models/document');
+var User = require('../models/user');
+
+
 
 /**
  * All Routes Requires Authorization To Access
@@ -59,19 +60,19 @@ router.get('/:id', auth, (req, res, next) => {
  * Request Param: documentId
  * Gets the document based on the documentId
  */
-router.get('/documentId/:documentId', auth, (req, res, next) => {
-    Document.findOne({
-        document_id: req.params.documentId
-    },
-    (err, data) => {
-        if (err) {
-            console.log(err);
-            return next(new ErrorHandler(400, err.message));
-        }
+// router.get('/documentId/:documentId', auth, (req, res, next) => {
+//     Document.findOne({
+//         document_id: req.params.documentId
+//     },
+//     (err, data) => {
+//         if (err) {
+//             console.log(err);
+//             return next(new ErrorHandler(400, err.message));
+//         }
 
-        res.status(200).json(data);
-    })
-})
+//         res.status(200).json(data);
+//     })
+// })
 
 /**
  * GET Request
@@ -120,10 +121,20 @@ router.get('/documentName/:documentName', auth, (req, res, next) => {
  * Request Body: file
  * Uploads the document into the storage and the document metadata into the mongoDB collection
  */
-router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => {
+router.post('/:userId/upload/:documentName', auth, upload.single('file'), (req, res, next) => {
     const file = req.file;
+    const userId = req.params.userId;
     const documentName = req.params.documentName;
     const s3FileURL = process.env.AWS_UPLOAD_FILE_URL;
+
+    User.findOne(
+        {userId},
+        (err) => {
+            if (err) {
+                throw new ErrorHandler(400, 'User does not exist');
+            }
+        }
+    )
 
     let s3bucket = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -144,8 +155,6 @@ router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => 
             console.log('error uploading to s3')
             return next(new ErrorHandler(err.statusCode, err.message));
         } else {
-            res.send({data});
-
             Document.updateOne(
                 { s3_key : params.Key },
                 {
@@ -153,18 +162,20 @@ router.post('/upload/:documentName', auth, upload.single('file'), (req, res) => 
                         document_name: documentName,
                         description: req.body.description,
                         fileLink: s3FileURL + file.originalname,
-                        s3_key: params.Key
+                        s3_key: params.Key,
+                        user_id: userId
                     }
                 },
                 { upsert : true },
                 (err) => {
                     if (err) {
                         return next(new ErrorHandler(400, err.message));
-                    }
-                    console.log("Saved new doc");
+                    } 
+
+                    res.send({data});
                 }
 
-            )
+            );
         }
     });
 });
@@ -196,9 +207,9 @@ router.put('/edit/:id', auth, (req, res, next) => {
  */
 router.delete('/:id', auth, (req, res, next) => {
     Document.findByIdAndRemove(req.params.id, (err, result) => {
-        if (err) {
-            return next(new ErrorHandler(400, err.message));
-        }
+        if (!result || err) 
+            return next(new ErrorHandler(400, "Document not found"));
+        
 
         let s3bucket = new AWS.S3({
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
