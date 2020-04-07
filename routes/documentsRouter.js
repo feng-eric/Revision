@@ -224,7 +224,7 @@ router.put('/edit/:id', auth, (req, res, next) => {
  * Deletes the document
  */
 router.delete('/:id', auth, (req, res, next) => {
-    Document.findByIdAndRemove(req.params.id, (err, result) => {
+    Document.findByIdAndDelete(req.params.id, (err, result) => {
         if (!result || err) 
             return next(new ErrorHandler(400, "Document not found"));
         
@@ -244,11 +244,7 @@ router.delete('/:id', auth, (req, res, next) => {
             if (err) {
                 return next(new ErrorHandler(err.statusCode, err.message));
             } else {
-                res.send({
-                    status: "200",
-                    responseType: "string",
-                    response: "success"
-                });
+                res.status(200).send({ response: "Deleted" });
             }
         });
     });
