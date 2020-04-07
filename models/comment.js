@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 let commentSchema = new Schema(
   {
-    username: { type : String },
-    document_name: { type : String },
+    document_id: { type: mongoose.Schema.Types.ObjectId },
+    name: { type : String },
     text: { type : String }
   },
   {

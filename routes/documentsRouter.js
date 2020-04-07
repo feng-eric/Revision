@@ -55,6 +55,11 @@ router.get('/:id', auth, (req, res, next) => {
     });
 });
 
+/**
+ * GET Request
+ * Request Param: userId
+ * Gets the documents based on userId
+ */
 router.get('/user/:userId', auth, (req, res, next) => {
     Document.find({
         user_id: req.params.userId
