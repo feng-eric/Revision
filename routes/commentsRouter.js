@@ -63,4 +63,15 @@ router.put('/edit/:id', auth, (req, res, next) => {
     );
 });
 
+router.delete('/delete/:id', auth, (req, res, next) => {
+    Comment.findByIdAndDelete(req.params.id, (err, result) => {
+        if (!result || err) 
+            return next(new ErrorHandler(400, "Comment not found"));
+
+        console.log(result);
+
+        res.status(200).send({ response: "Deleted" });
+    });
+})
+
 module.exports = router;
