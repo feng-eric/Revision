@@ -69,12 +69,33 @@ router.get('/me', auth, async(req, res) => {
   res.send(req.user);
 })
 
+router.get('/all', auth, async(req, res) => {
+  try {
+    User.find(
+        {},
+        null,
+        {
+            sort: { createdAt: 1 }
+        },
+        (err, users) => {
+            if (err) {
+                return next(new ErrorHandler(400, err.message));
+            }
+            res.status(200).send(users);
+        }
+    )
+  } catch (err) {
+    next(err);
+  }
+})
+
 /**
  * POST Request
  * Logs out the current user by removing the token
  * Requires authorization to access
  */
 router.post('/logout', auth, async (req, res) => {
+  console.log(req.user)
   try {
     req.user.tokens = req.user.tokens.filter((tokens) => {
       return tokens.token != req.token;
