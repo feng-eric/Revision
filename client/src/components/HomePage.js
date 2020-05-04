@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { UploadDocument } from '.';
 
 import { userActions } from '../actions';
+import { documentActions } from '../actions';
+
+import { Document, Page } from "react-pdf/dist/entry.webpack";
 
 class HomePage extends Component {
     componentDidMount() {
-        this.props.getUsers();
+        let userId = this.props.user.user._id;
+        this.props.getDocumentsByUser(userId)
     }
 
     handleLogOut() {
-        console.log("LOGOUT WAS INITIATED")
-        let user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
         this.props.logout();
     }
 
@@ -21,30 +23,33 @@ class HomePage extends Component {
     }
 
     render() {
-        const { user, users } = this.props;
-        console.log(user);
-        console.log(users)
+        const { user, documents } = this.props;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h1>Hi {user.name}!</h1>
                 <p>You're logged in.</p>
-                <h3>All registered users:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-                {users.items &&
+                <UploadDocument></UploadDocument>
+                <h3>All Documents:</h3>
+                {documents.loadingDocuments && <em>Loading docuemnts...</em>}
+                {documents.error && <span className="text-danger">ERROR: {documents.error}</span>}
+                {documents.documents &&
                     <ul>
-                        {users.items.map((user) =>
-                            <li key={user.email}>
-                                {user.name + ' ' + user.email}
-                                {/* {
-                                    user.deleting ? <em> - Deleting...</em>
-                                    : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                    : <span> - <a onClick={this.handleDeleteUser(user.id)}>Delete</a></span>
-                                } */}
+                        {documents.documents.map((doc) => 
+                            <li key={doc._id}>
+                                {doc.document_name + ' ' + doc.description}
+                                <Document
+                                file = {doc.fileLink}
+                                onLoadError={console.error}
+                                onLoadSuccess={console.log}
+                                >
+                                    <Page pageNumber={1} />
+                                </Document>
                             </li>
+                            
                         )}
                     </ul>
                 }
+
                 <p>
                     <Link to="/login" className="btn btn-link">Logout</Link>
                 </p>
@@ -54,15 +59,16 @@ class HomePage extends Component {
 }
 
 function mapState(state) {
-    const { users, authentication } = state;
+    const { authentication, documents } = state;
     const { user } = authentication;
-    return { user, users };
+    return { user, documents };
 }
 
 const actionCreators = {
     getUsers: userActions.getAll,
     logout: userActions.logout,
-    deleteUser: userActions.delete
+    deleteUser: userActions.delete,
+    getDocumentsByUser: documentActions.getDocumentsByUser
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
