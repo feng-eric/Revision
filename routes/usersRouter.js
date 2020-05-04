@@ -95,7 +95,6 @@ router.get('/all', auth, async(req, res) => {
  * Requires authorization to access
  */
 router.post('/logout', auth, async (req, res) => {
-  console.log(req.user)
   try {
     req.user.tokens = req.user.tokens.filter((tokens) => {
       return tokens.token != req.token;
