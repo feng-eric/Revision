@@ -8,6 +8,7 @@ import './App.css';
 import { history } from './helpers';
 import { alertActions } from './actions';
 import { PrivateRoute, HomePage, LoginPage, RegisterPage } from './components';
+import ViewDocument from './components/ViewDocument'
 
 class App extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class App extends Component {
                 <PrivateRoute exact path ="/" component={HomePage}/>
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
+                <Route path="/document" component={ViewDocument} />
                 <Redirect from="*" to="/" />
               </Switch>
             </Router>

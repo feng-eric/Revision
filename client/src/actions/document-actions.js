@@ -26,13 +26,6 @@ function uploadDocument(userId, documentName, selectedFile, description) {
                     dispatch(alertActions.error(error.toString()));
                 }
             )
-
-        
-
-    
-
-
-
     }
 
     function request(userId) { return { type: documentActionConstants.UPLOAD_REQUEST, userId }}

@@ -4,13 +4,11 @@ export function documents(state = {}, action) {
     switch(action.type)  {
         case documentActionConstants.UPLOAD_REQUEST:
             return {
-                ...state,
                 uploadingDocument: true,
                 userId: action.userId
             };
         case documentActionConstants.UPLOAD_SUCCESS:
             return {
-                ...state,
                 uploadedDocument: true,
                 userId: action.userId
             };

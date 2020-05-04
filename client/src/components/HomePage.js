@@ -6,8 +6,6 @@ import { UploadDocument } from '.';
 import { userActions } from '../actions';
 import { documentActions } from '../actions';
 
-import { Document, Page } from "react-pdf/dist/entry.webpack";
-
 class HomePage extends Component {
     componentDidMount() {
         let userId = this.props.user.user._id;
@@ -30,25 +28,22 @@ class HomePage extends Component {
                 <p>You're logged in.</p>
                 <UploadDocument></UploadDocument>
                 <h3>All Documents:</h3>
-                {documents.loadingDocuments && <em>Loading docuemnts...</em>}
+                {documents.loadingDocuments && <em>Loading documents...</em>}
                 {documents.error && <span className="text-danger">ERROR: {documents.error}</span>}
                 {documents.documents &&
                     <ul>
                         {documents.documents.map((doc) => 
                             <li key={doc._id}>
-                                {doc.document_name + ' ' + doc.description}
-                                <Document
-                                file = {doc.fileLink}
-                                onLoadError={console.error}
-                                onLoadSuccess={console.log}
-                                >
-                                    <Page pageNumber={1} />
-                                </Document>
+                                <Link to={{
+                                    pathname: "/document/" + doc._id
+                                }}>{doc.document_name + ' ' + doc.description}</Link>
                             </li>
                             
                         )}
                     </ul>
                 }
+
+
 
                 <p>
                     <Link to="/login" className="btn btn-link">Logout</Link>
