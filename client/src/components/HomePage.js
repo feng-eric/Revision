@@ -35,7 +35,10 @@ class HomePage extends Component {
                         {documents.documents.map((doc) => 
                             <li key={doc._id}>
                                 <Link to={{
-                                    pathname: "/document/" + doc._id
+                                    pathname: "/document/" + doc._id,
+                                    state: {
+                                        documentId: doc._id
+                                    }
                                 }}>{doc.document_name + ' ' + doc.description}</Link>
                             </li>
                             

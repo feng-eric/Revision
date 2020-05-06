@@ -8,6 +8,8 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props)
+
         this.props.logout();
 
         this.state = {
@@ -31,7 +33,10 @@ class LoginPage extends Component {
         this.setState({ submitted: true });
         const { username, password} = this.state;
         if (username && password) {
-            this.props.login(username, password);
+            let { from } = this.props.location.state || {from: {pathname: '/'}};
+            console.log(from);
+            this.props.login(username, password, from)
+              
         }
     }
 

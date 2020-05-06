@@ -19,9 +19,7 @@ function login(email, password) {
     })
     .then(handleResponse)
     .then(user => {
-        console.log('loggedin');
         localStorage.setItem('user', JSON.stringify(user));
-
         return user;
     });
 }
@@ -53,7 +51,6 @@ function getById(id) {
 }
 
 function register(user) {
-    console.log(user);
     return axios.post('http://localhost:8000/users', {
         name: user.name,
         email: user.email,
@@ -71,9 +68,10 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
-    console.log('handling...')
     const data = response.data;
-    if (response.status !== 200) {
+   
+    if (response.status !== 200 && response.status !== 201) {
+        console.log(response.status)
         if (response.status === 401) {
             console.log("handle logout")
             logout();

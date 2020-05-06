@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch, Redirect, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
-// import axios from 'axios'
-// import { Document, Page } from "react-pdf/dist/entry.webpack";
 
 import { history } from './helpers';
 import { alertActions } from './actions';
-import { PrivateRoute, HomePage, LoginPage, RegisterPage } from './components';
-import ViewDocument from './components/ViewDocument'
+import { PrivateRoute, HomePage, LoginPage, RegisterPage, ViewDocument } from './components';
 
 class App extends Component {
   constructor(props) {
@@ -43,7 +40,6 @@ class App extends Component {
     // .catch((err) => {
     //   console.log(err);
     // });
-      
   }
 
   
@@ -61,8 +57,8 @@ class App extends Component {
                 <PrivateRoute exact path ="/" component={HomePage}/>
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
-                <Route path="/document" component={ViewDocument} />
-                <Redirect from="*" to="/" />
+                <PrivateRoute path="/document" component={ViewDocument}/>
+                {/* <Redirect from="*" to="/" /> */}
               </Switch>
             </Router>
           

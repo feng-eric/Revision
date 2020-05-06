@@ -28,6 +28,18 @@ export function documents(state = {}, action) {
             return {
                 error: action.error
             };
+        case documentActionConstants.GET_BY_ID_REQUEST:
+            return {
+                loadingDocument: true
+            };
+        case documentActionConstants.GET_BY_ID_SUCCESS:
+            return {
+                document: action.document
+            };
+        case documentActionConstants.GET_BY_ID_FAILURE:
+            return {
+                error: action.error
+            };  
         default: 
             return state
     }

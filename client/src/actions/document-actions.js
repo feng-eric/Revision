@@ -4,7 +4,8 @@ import { alertActions } from './';
 
 export const documentActions = {
     uploadDocument,
-    getDocumentsByUser
+    getDocumentsByUser,
+    getDocumentById
 };
 
 function uploadDocument(userId, documentName, selectedFile, description) {
@@ -54,4 +55,25 @@ function getDocumentsByUser(userId) {
     function failure(error) { return { type: documentActionConstants.GET_BY_USER_FAILURE, error } }
 
     
+}
+
+function getDocumentById(docId) {
+    return dispatch => {
+        dispatch(request({ docId }));
+
+        documentService.getDocumentById(docId)
+            .then(
+                document => {
+                    dispatch(success(document))
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            )
+
+        function request(docId) { return { type: documentActionConstants.GET_BY_ID_REQUEST , docId }}
+        function success(document) { return { type: documentActionConstants.GET_BY_ID_SUCCESS, document }}
+        function failure(error) { return { type: documentActionConstants.GET_BY_ID_FAILURE , error }}
+    }
 }
