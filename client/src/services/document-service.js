@@ -37,6 +37,7 @@ function getDocumentById(docId) {
 
 function handleResponse(response) {
     const data = response.data;
+    console.log(data);
     if (response.status !== 200) {
         if (response.status === 401) {
             userService.logout();

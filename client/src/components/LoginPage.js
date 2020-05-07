@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Jumbotron from 'react-bootstrap/Jumbotron'
 
 import { userActions } from '../actions';
 
@@ -44,8 +45,8 @@ class LoginPage extends Component {
         const { loggingIn } = this.props;
         const { username, password, submitted } = this.state;
         return (
-            <div className = "col-md-6 col-md-offset-3">
-                <h2>Login</h2>
+            <Jumbotron>
+                <h1>Penguin</h1>
                 <form name = "form" onSubmit= {this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                         <label htmlFor="username">Username</label>
@@ -69,7 +70,7 @@ class LoginPage extends Component {
                         <Link to="/register" className="btn btn-link">Register</Link>
                     </div>
                 </form>
-            </div>
+            </Jumbotron>
         
         )
     }

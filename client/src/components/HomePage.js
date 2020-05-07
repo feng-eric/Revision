@@ -10,6 +10,7 @@ class HomePage extends Component {
     componentDidMount() {
         let userId = this.props.user.user._id;
         this.props.getDocumentsByUser(userId)
+        console.log(this.props);
     }
 
     handleLogOut() {
@@ -24,7 +25,7 @@ class HomePage extends Component {
         const { user, documents } = this.props;
         return (
             <div className="col-md-6 col-md-offset-3">
-                <h1>Hi {user.name}!</h1>
+                <h1>Hi {user.user.name}!</h1>
                 <p>You're logged in.</p>
                 <UploadDocument></UploadDocument>
                 <h3>All Documents:</h3>
