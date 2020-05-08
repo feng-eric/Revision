@@ -6,11 +6,12 @@ import { UploadDocument } from '.';
 import { userActions } from '../actions';
 import { documentActions } from '../actions';
 
+import ListGroup from 'react-bootstrap/ListGroup'
+
 class HomePage extends Component {
     componentDidMount() {
         let userId = this.props.user.user._id;
         this.props.getDocumentsByUser(userId)
-        console.log(this.props);
     }
 
     handleLogOut() {
@@ -24,35 +25,34 @@ class HomePage extends Component {
     render() {
         const { user, documents } = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <>
                 <h1>Hi {user.user.name}!</h1>
                 <p>You're logged in.</p>
+                <p>
+                    <Link to="/login" className="btn btn-link">Logout</Link>
+                </p>
                 <UploadDocument></UploadDocument>
-                <h3>All Documents:</h3>
+                <h3>Documents:</h3>
                 {documents.loadingDocuments && <em>Loading documents...</em>}
                 {documents.error && <span className="text-danger">ERROR: {documents.error}</span>}
                 {documents.documents &&
-                    <ul>
+                    <ListGroup>
                         {documents.documents.map((doc) => 
-                            <li key={doc._id}>
+                            <ListGroup.Item action variant="light" key={doc._id}>
                                 <Link to={{
                                     pathname: "/document/" + doc._id,
                                     state: {
                                         documentId: doc._id
                                     }
                                 }}>{doc.document_name + ' ' + doc.description}</Link>
-                            </li>
+                            </ListGroup.Item>
                             
                         )}
-                    </ul>
+                    </ListGroup>
                 }
 
 
-
-                <p>
-                    <Link to="/login" className="btn btn-link">Logout</Link>
-                </p>
-            </div>
+            </>
         );
     }
 }

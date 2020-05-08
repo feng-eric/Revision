@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { documentActions } from '../actions';
-
 import { history } from '../helpers';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 import { Document, Page } from "react-pdf/dist/entry.webpack";
 
@@ -27,22 +27,32 @@ class ViewDocument extends Component {
         const { documents } = this.props;
     
         return (
-            <div>
-                { documents.document &&
-                    <div>
-                        <h1>Document Id: { documents.document._id }</h1>
-                        <h1>Document Name: { documents.document.document_name } </h1>
-                        <h1>Document Description: { documents.document.description } </h1>
-                        <Document
-                            file = {documents.document.fileLink}
-                            onLoadError={console.error}
-                            onLoadSuccess={console.log}
-                        >
-                            <Page pageNumber={1} />
-                        </Document>
-                        <button onClick={this.returnToPreviousPage}>Return to Previous Page</button>
-                    </div>
-                }
+            <div style = {{
+                backgroundColor: '#e9ecef'
+            }}>
+                <Breadcrumb>
+                    <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+                    <Breadcrumb.Item active>Document</Breadcrumb.Item>
+                </Breadcrumb>
+                <div style = {{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    { documents.document &&
+                        <div>
+                            <h3>Document Name: { documents.document.document_name } </h3>
+                            <h4>Description: { documents.document.description } </h4>
+                            <Document
+                                file = {documents.document.fileLink}
+                                onLoadError={console.error}
+                                onLoadSuccess={console.log}
+                            >
+                                <Page pageNumber={1} />
+                            </Document>
+                        </div>
+                    }
+                </div>
             </div>
 
           )
