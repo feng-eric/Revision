@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 
 import { Document, Page } from "react-pdf/dist/entry.webpack";
 
@@ -74,9 +75,9 @@ class ViewDocument extends Component {
                         { documents.document &&
                             <Card>
                                 <Card.Header> 
-                                    <h5>Document Name: { documents.document.document_name } </h5>
-                                    <h6>Description: { documents.document.description }</h6>
-                                    <h6>Created: {moment(documents.document.createdAt).format('MMM Do YYYY')}</h6>
+                                    <h3>Document Name: { documents.document.document_name } </h3>
+                                    <h5>Description: { documents.document.description }</h5>
+                                    <h5>Created: {moment(documents.document.createdAt).format('MMM Do YYYY')}</h5>
 
                                 </Card.Header>
                                 <Card.Body>
@@ -119,6 +120,17 @@ class ViewDocument extends Component {
                                         </Card.Body>
                                     </Card>
                                 )}
+                                <Card className="mb-4">
+                                    <Card.Header>
+                                        <a>{user.user.name}</a>
+                                    </Card.Header>
+                                    <Card.Body>
+                                    <Form.Control as="textarea" rows="4" />
+                                    <Button className="mt-2 justify-content-end" variant="primary" type="submit">
+                                        Submit
+                                    </Button>
+                                    </Card.Body>
+                                </Card>
                             </div>
                         }   
                         </Col>
