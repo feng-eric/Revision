@@ -25,6 +25,8 @@ class ViewDocument extends Component {
 
         this.returnToPreviousPage = this.returnToPreviousPage.bind(this);
         this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -45,8 +47,29 @@ class ViewDocument extends Component {
 
     }
 
+    handleChange(event) {
+        const { id, value } = event.target;
+        this.setState({
+            [id]: value
+        });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        console.log(this.state);
+        this.setState({ submitted: true });
+
+        const { documents, user } = this.props;
+        const docId = documents.document._id;
+       
+        if (user.user.name && this.state.comment) 
+            this.props.uploadCommentForDoc(docId, user.user.name, this.state.comment);
+        
+    }
+
     render() {
-        const { user, documents, comments } = this.props;
+        const { user, documents, comments, uploadComment } = this.props;
         const { numPages } = this.state;
     
         return (
@@ -67,10 +90,6 @@ class ViewDocument extends Component {
                     </Navbar.Collapse>
                 </Navbar>
                 <Container>
-                    {/* <div style = {{
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}> */}
                     <Row className="justify-content-center">
                         { documents.document &&
                             <Card>
@@ -93,7 +112,7 @@ class ViewDocument extends Component {
                                                     <Page
                                                         key={`page_${index + 1}`}
                                                         pageNumber={index + 1}
-                                                        scale='1.5'
+                                                        scale={1.5}
                                                     />
                                                 ),
                                             )
@@ -105,7 +124,7 @@ class ViewDocument extends Component {
                     </Row>
                     <Row className="mt-4">
                         <Col>
-                        {comments.loadingDocuments && <em>Loading Comments...</em>}
+                        {comments.loadingComments && <em>Loading Comments...</em>}
                         {comments.error && <span className="text-danger">ERROR: {comments.error}</span>}
                         {comments.comments &&
                             <div>
@@ -120,13 +139,27 @@ class ViewDocument extends Component {
                                         </Card.Body>
                                     </Card>
                                 )}
+                                {uploadComment.uploadingComment && <em>Uploading Comment...</em>}
+                                {uploadComment.error && <span className="text-danger">ERROR: {comments.error}</span>}
+                                {uploadComment.uploadedComment && 
+                                    <Card className="mb-4">
+                                        <Card.Header>
+                                            <a> { uploadComment.comment.name } </a>
+                                            <a className="float-right">{moment(uploadComment.comment.createdAt).format('MMM Do YYYY')}</a>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            { uploadComment.comment.text }
+                                        </Card.Body>
+                                    </Card>
+                                }
+
                                 <Card className="mb-4">
                                     <Card.Header>
                                         <a>{user.user.name}</a>
                                     </Card.Header>
                                     <Card.Body>
-                                    <Form.Control as="textarea" rows="4" />
-                                    <Button className="mt-2 justify-content-end" variant="primary" type="submit">
+                                    <Form.Control id="comment" as="textarea" rows="4" onChange={this.handleChange}/>
+                                    <Button className="mt-2 justify-content-end" variant="primary" type="submit" onClick={this.handleSubmit}>
                                         Submit
                                     </Button>
                                     </Card.Body>
@@ -143,14 +176,15 @@ class ViewDocument extends Component {
 }
 
 function mapState(state) {
-    const { authentication, documents, comments } = state;
+    const { authentication, documents, comments, uploadComment } = state;
     const { user } = authentication;
-    return { user, documents, comments };
+    return { user, documents, comments, uploadComment };
 }
 
 const actionCreators = {
     getDocumentById: documentActions.getDocumentById,
-    getCommentsByDocId: commentActions.getCommentsByDocId
+    getCommentsByDocId: commentActions.getCommentsByDocId,
+    uploadCommentForDoc: commentActions.uploadComment
 }
 
 const connectedViewDocument = connect(mapState, actionCreators)(ViewDocument)

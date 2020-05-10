@@ -4,11 +4,21 @@ import axios from 'axios';
 import { userService } from './';
 
 export const commentService = {
-    getCommentsByDocumentId
+    getCommentsByDocumentId,
+    uploadComment
 };
 
 function uploadComment(docId, name, comment) {
-
+    return axios({
+        method: 'POST',
+        url: 'http://localhost:8000/comments/upload/' + docId, 
+        headers: authHeader(),
+        data: {
+            name: name,
+            text: comment
+        }
+    })
+    .then(handleResponse)
 }
 
 function getCommentsByDocumentId(docId) {

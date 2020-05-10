@@ -17,38 +17,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // axios.get('http://localhost:8000/documents', {
-    //   headers: {
-    //     Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTg2ZDRjYWUzMzgzYzVkOTllMGY1NTkiLCJpYXQiOjE1ODg0NjQ1MzksImV4cCI6MTU4ODUwNzczOX0.Wkyit6mOkH_nfHe_-MsElrpJPy4_n05Id3rjlWZZvtU' 
-    //   }
-    // })
-    // .then((res) => {
-    //   console.log('lol')
-    //   console.log(res);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // })
 
-    // axios.post('http://localhost:8000/users/login', { 
-    //   email: "ericfeng610@gmail.com",
-	  //   password: "Password3!"
-    // })
-    // .then((res) => {
-    //     console.log(res)
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   }
 
   
   render() {
     const { alert } = this.props;
     return (
-      // <div className = "jumbotron">
-      //   <div className = "container">
-      //     <div className="col-sm-8 col-sm-offset-2"></div>
       <div>
         <div>
           <div>

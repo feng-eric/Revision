@@ -50,7 +50,7 @@ class RegisterPage extends Component {
                 <h2>Register</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !user.name ? ' has-error' : '')}>
-                        <label htmlFor="name">name</label>
+                        <label htmlFor="name">Name</label>
                         <input type="text" className="form-control" name="name" value={user.name} onChange={this.handleChange} />
                         {submitted && !user.name &&
                             <div className="help-block">Name is required</div>

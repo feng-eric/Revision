@@ -3,8 +3,32 @@ import { commentService } from '../services';
 import { alertActions } from './';
 
 export const commentActions = {
-    getCommentsByDocId
+    getCommentsByDocId,
+    uploadComment
 };
+
+function uploadComment(docId, name, comment) {
+    return dispatch => {
+        console.log('test')
+        dispatch(request({ docId }));
+
+        commentService.uploadComment(docId, name, comment)
+            .then( 
+                comment => { 
+                    dispatch(success(comment));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            )
+    }
+
+
+    function request(docId) { return { type: commentActionConstants.UPLOAD_COMMENT_REQUEST, docId }}
+    function success(comment) { return { type: commentActionConstants.UPLOAD_COMMENT_SUCCESS, comment }}
+    function failure(error) { return { type: commentActionConstants.UPLOAD_COMMENT_FAILURE, error } }
+}
 
 function getCommentsByDocId(docId) {
     return dispatch => {
