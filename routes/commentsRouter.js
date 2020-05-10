@@ -8,7 +8,7 @@ var Comment = require('../models/comment');
  * GET Request
  * Get comment by documentId
  */
-router.get('/document/:documentId', auth, (req, res, next) => {
+router.get('/doc/:documentId', auth, (req, res, next) => {
     Comment.find({
         document_id: req.params.documentId
     },
