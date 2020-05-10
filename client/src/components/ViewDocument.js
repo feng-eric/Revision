@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { documentActions } from '../actions';
+import { documentActions, commentActions } from '../actions';
 import { history } from '../helpers';
+import * as moment from 'moment';
 
-import Container from 'react-bootstrap/Container'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -35,12 +38,15 @@ class ViewDocument extends Component {
 
     onDocumentLoadSuccess = ({ numPages }) => {
         this.setState({ numPages });
+        const { documents } = this.props;
+        const docId = documents.document._id;
+        this.props.getCommentsByDocId(docId)
+
     }
 
     render() {
-        const { user, documents } = this.props;
+        const { user, documents, comments } = this.props;
         const { numPages } = this.state;
-        console.log(this.props)
     
         return (
             <>
@@ -59,16 +65,19 @@ class ViewDocument extends Component {
                         </Link>
                     </Navbar.Collapse>
                 </Navbar>
-                <Container fluid>
-                    <div style = {{
+                <Container>
+                    {/* <div style = {{
                         display: 'flex',
                         justifyContent: 'center',
-                    }}>
+                    }}> */}
+                    <Row className="justify-content-center">
                         { documents.document &&
                             <Card>
                                 <Card.Header> 
                                     <h5>Document Name: { documents.document.document_name } </h5>
                                     <h6>Description: { documents.document.description }</h6>
+                                    <h6>Created: {moment(documents.document.createdAt).format('MMM Do YYYY')}</h6>
+
                                 </Card.Header>
                                 <Card.Body>
                                     <Document
@@ -83,6 +92,7 @@ class ViewDocument extends Component {
                                                     <Page
                                                         key={`page_${index + 1}`}
                                                         pageNumber={index + 1}
+                                                        scale='1.5'
                                                     />
                                                 ),
                                             )
@@ -91,7 +101,28 @@ class ViewDocument extends Component {
                                 </Card.Body>
                             </Card>
                         }
-                    </div>
+                    </Row>
+                    <Row className="mt-4">
+                        <Col>
+                        {comments.loadingDocuments && <em>Loading Comments...</em>}
+                        {comments.error && <span className="text-danger">ERROR: {comments.error}</span>}
+                        {comments.comments &&
+                            <div>
+                                {comments.comments.map((comment) => 
+                                    <Card className="mb-4" key={comment._id}>
+                                        <Card.Header>
+                                            <a> { comment.name }  </a>
+                                            <a className="float-right">{moment(comment.createdAt).format('MMM Do YYYY')}</a>
+                                        </Card.Header>
+                                        <Card.Body>
+                                            {comment.text}
+                                        </Card.Body>
+                                    </Card>
+                                )}
+                            </div>
+                        }   
+                        </Col>
+                    </Row>
             </Container>
             </>
 
@@ -100,13 +131,14 @@ class ViewDocument extends Component {
 }
 
 function mapState(state) {
-    const { authentication, documents } = state;
+    const { authentication, documents, comments } = state;
     const { user } = authentication;
-    return { user, documents };
+    return { user, documents, comments };
 }
 
 const actionCreators = {
-    getDocumentById: documentActions.getDocumentById
+    getDocumentById: documentActions.getDocumentById,
+    getCommentsByDocId: commentActions.getCommentsByDocId
 }
 
 const connectedViewDocument = connect(mapState, actionCreators)(ViewDocument)
