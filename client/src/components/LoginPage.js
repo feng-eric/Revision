@@ -46,7 +46,7 @@ class LoginPage extends Component {
         const { username, password, submitted } = this.state;
         return (
             <Jumbotron>
-                <h1>Penguin</h1>
+                <h1>Revision</h1>
                 <form name = "form" onSubmit= {this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                         <label htmlFor="username">Username</label>
