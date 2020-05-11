@@ -10,7 +10,7 @@ export const documentService = {
 function uploadDocument(userId, documentName, formData) {
     return axios({
         method: 'POST',
-        url: 'http://localhost:8000/documents/' + userId + '/upload/' + documentName,
+        url: '/documents/' + userId + '/upload/' + documentName,
         headers: authHeader(),
         data: formData
     })
@@ -27,7 +27,7 @@ function uploadDocument(userId, documentName, formData) {
 
 function getDocumentsByUser(userId) {
     
-    return axios.get('http://localhost:8000/documents/user/' + userId, {
+    return axios.get('/documents/user/' + userId, {
         headers: authHeader()
     })
     .then(handleResponse)
@@ -43,7 +43,7 @@ function getDocumentsByUser(userId) {
 
 function getDocumentById(docId) {
 
-    return axios.get('http://localhost:8000/documents/' +docId, {
+    return axios.get('/documents/' +docId, {
         headers: authHeader()
     })
     .then(handleResponse)

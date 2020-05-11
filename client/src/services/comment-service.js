@@ -9,7 +9,7 @@ export const commentService = {
 function uploadComment(docId, name, comment) {
     return axios({
         method: 'POST',
-        url: 'http://localhost:8000/comments/upload/' + docId, 
+        url: '/comments/upload/' + docId, 
         headers: authHeader(),
         data: {
             name: name,
@@ -28,7 +28,7 @@ function uploadComment(docId, name, comment) {
 }
 
 function getCommentsByDocumentId(docId) {
-    return axios.get('http://localhost:8000/comments/doc/' + docId, {
+    return axios.get('/comments/doc/' + docId, {
         headers: authHeader()
     })
     .then(handleResponse)

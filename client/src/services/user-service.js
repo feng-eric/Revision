@@ -29,7 +29,7 @@ function logout() {
     console.log(auth)
     return axios({
         method: 'POST',
-        url: 'http://localhost:8000/users/logout',
+        url: '/users/logout',
         headers: authHeader()
     })
     .then(handleResponse)
@@ -40,7 +40,7 @@ function logout() {
 }
 
 function getAll() {
-    return axios.get('http://localhost:8000/users/all', {
+    return axios.get('/users/all', {
         headers: authHeader()
     })
     .then(handleResponse)
@@ -51,7 +51,7 @@ function getById(id) {
 }
 
 function register(user) {
-    return axios.post('http://localhost:8000/users', {
+    return axios.post('/users', {
         name: user.name,
         email: user.email,
         password: user.password
