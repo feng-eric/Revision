@@ -47,9 +47,9 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
-    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY, { expiresIn : "12h" });
-    // limits to 5 tokens for user
-    const MAX_TOKENS = 5;
+    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY, { expiresIn : "2h" });
+    // limits to 2 tokens for user
+    const MAX_TOKENS = 2;
 
     if (user.tokens.length >= MAX_TOKENS) 
         user.tokens.splice(0, 1);
