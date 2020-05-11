@@ -19,6 +19,7 @@ var documentRouter = require('./routes/documentsRouter');
 var commentRouter = require('./routes/commentsRouter');
 
 var app = express();
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

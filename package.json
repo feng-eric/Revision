@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "node server/bin/www",
-    "dev": "nodemon server.js",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
