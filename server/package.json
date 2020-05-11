@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "heroku-postbuild": "cd .. && cd client && npm install --only=dev && npm install && npm run build"
   },
   "dependencies": {
     "aws-sdk": "^2.648.0",
