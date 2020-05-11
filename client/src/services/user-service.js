@@ -13,7 +13,7 @@ export const userService = {
 
 function login(email, password) {
 
-    return axios.post('http://localhost:8000/users/login', { 
+    return axios.post('/users/login', { 
         email: email,
         password: password
     })
