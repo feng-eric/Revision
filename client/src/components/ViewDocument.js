@@ -159,7 +159,7 @@ class ViewDocument extends Component {
                                     </Card.Header>
                                     <Card.Body>
                                     <Form.Control id="comment" as="textarea" rows="4" onChange={this.handleChange}/>
-                                    <Button className="mt-2 justify-content-end" variant="primary" type="submit" onClick={this.handleSubmit}>
+                                    <Button className="mt-2 float-right" variant="primary" type="submit" onClick={this.handleSubmit}>
                                         Submit
                                     </Button>
                                     </Card.Body>

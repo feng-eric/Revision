@@ -48,9 +48,10 @@ class LoginPage extends Component {
         const { username, password, submitted } = this.state;
         return (
                 <Container style={{
+
                     marginTop: '10%'
                 }}>
-                        <Card className="w-100">
+                        <Card>
                             <Card.Body>
                                 <h1 className="text-center">Revision</h1>
                                 <form name = "form" onSubmit= {this.handleSubmit}>

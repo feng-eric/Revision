@@ -8,7 +8,7 @@ export const userService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    deleteUser
 };
 
 function login(email, password) {
@@ -60,11 +60,11 @@ function register(user) {
 }
 
 function update(user) {
-    console.log('update');
+    console.log('WIP update');
 }
 
-function _delete(id) {
-    console.log('delete user');
+function deleteUser(id) {
+    console.log('WIP delete user');
 }
 
 function handleResponse(response) {
