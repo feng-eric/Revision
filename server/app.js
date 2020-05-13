@@ -19,7 +19,6 @@ var documentRouter = require('./routes/documentsRouter');
 var commentRouter = require('./routes/commentsRouter');
 
 var app = express();
-app.use(express.static(path.join(__dirname, '../client/build')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +39,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/documents', documentRouter);
 app.use('/comments', commentRouter);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
