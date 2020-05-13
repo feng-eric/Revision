@@ -19,6 +19,11 @@ var documentRouter = require('./routes/documentsRouter');
 var commentRouter = require('./routes/commentsRouter');
 
 var app = express();
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,11 +45,6 @@ app.use('/users', usersRouter);
 app.use('/documents', documentRouter);
 app.use('/comments', commentRouter);
 
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
 
 
 // catch 404 and forward to error handler
