@@ -40,14 +40,12 @@ app.use('/users', usersRouter);
 app.use('/documents', documentRouter);
 app.use('/comments', commentRouter);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-  });
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
-}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
