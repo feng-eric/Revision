@@ -20,7 +20,7 @@ function uploadComment(docId, name, comment) {
     .catch(err => {
         if (err.response.status === 401) {
             history.push('/login');
-            window.location.reload(true);
+            // window.location.reload(true);
         }
         const error = err.response.data && err.response.data.error || err.response.statusText;
         return Promise.reject(error);
@@ -35,7 +35,7 @@ function getCommentsByDocumentId(docId) {
     .catch(err => {
         if (err.response.status === 401) {
             history.push('/login');
-            window.location.reload(true);
+            // window.location.reload(true);
         }
         const error = err.response.data && err.response.data.error || err.response.statusText;
         return Promise.reject(error);
