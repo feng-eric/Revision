@@ -21,6 +21,7 @@ class ViewDocument extends Component {
         
         this.state = {
             numPages: null,
+            comment: ''
         }
 
         this.returnToPreviousPage = this.returnToPreviousPage.bind(this);
@@ -57,14 +58,21 @@ class ViewDocument extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        console.log(this.state);
         this.setState({ submitted: true });
 
         const { documents, user } = this.props;
         const docId = documents.document._id;
+
+        this.setState({
+            comment: ''
+        })
        
-        if (user.user.name && this.state.comment) 
+        if (user.user.name && this.state.comment) {
             this.props.uploadCommentForDoc(docId, user.user.name, this.state.comment);
+            //TODO: reset form after submit
+        }
+          
+
         
     }
 

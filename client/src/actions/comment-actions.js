@@ -9,7 +9,6 @@ export const commentActions = {
 
 function uploadComment(docId, name, comment) {
     return dispatch => {
-        console.log('test')
         dispatch(request({ docId }));
 
         commentService.uploadComment(docId, name, comment)
