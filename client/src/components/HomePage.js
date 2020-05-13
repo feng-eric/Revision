@@ -30,7 +30,7 @@ class HomePage extends Component {
 
     render() {
         const { user, documents } = this.props;
-        console.log(documents)
+        console.log(this.props)
         return (
             <>
                 <Navbar bg="light" className="mb-5" sticky="top">

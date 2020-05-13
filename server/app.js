@@ -37,7 +37,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
 
 // this is where we basically set up the controllers and give the path
 app.use('/', indexRouter);
