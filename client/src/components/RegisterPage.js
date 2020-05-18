@@ -2,8 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
+
 import { userActions } from '../actions';
 
+const styles = {
+    background: {
+        backgroundImage: `url(${'/background.png'})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+
+        height: '100vh',
+        width: '100%',
+    },
+
+    card: {
+        marginTop: '20%'
+    },
+    
+
+    align: {
+        justifyContent: "center",
+        alignItems: "center",
+    }
+}
 class RegisterPage extends Component {
     constructor(props) {
         super(props);
@@ -46,8 +70,13 @@ class RegisterPage extends Component {
         const { registering  } = this.props;
         const { user, submitted } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Register</h2>
+            <div>
+                <Container style={styles.align}>
+            <Card style={styles.card}>
+                <Card.Title>
+                <h2 className="text-center pt-4">Register</h2>
+                </Card.Title>
+                <Card.Body>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !user.name ? ' has-error' : '')}>
                         <label htmlFor="name">Name</label>
@@ -70,7 +99,7 @@ class RegisterPage extends Component {
                             <div className="help-block">Password is required</div>
                         }
                     </div>
-                    <div className="form-group">
+                    <div className="form-group text-center pt-2">
                         <button className="btn btn-primary">Register</button>
                         {registering && 
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
@@ -78,7 +107,14 @@ class RegisterPage extends Component {
                         <Link to="/login" className="btn btn-link">Cancel</Link>
                     </div>
                 </form>
+                </Card.Body>
+            </Card>
+            </Container>
+
+                
             </div>
+            
+            
         );
     }
 }

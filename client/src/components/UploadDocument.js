@@ -90,11 +90,11 @@ class UploadDocument extends Component {
                     <Form onSubmit={this.handleSubmit}>
                             <Form.Group onChange={this.handleChange} value={documentName} controlId="documentName">
                                 <Form.Label>Document Name</Form.Label>
-                                <Form.Control required type="text" placeholder="Document Name"/>
+                                <Form.Control required type="text" autocomplete="off" placeholder="Document Name"/>
                             </Form.Group>
                             <Form.Group value={description} onChange={this.handleChange} controlId="description">
                                 <Form.Label>Document Description</Form.Label>
-                                <Form.Control type="text" placeholder="Document Description"/>
+                                <Form.Control type="text" autocomplete="off" placeholder="Document Description"/>
                             </Form.Group>
                             <Form.Label>Document</Form.Label>
                             <Form.File
