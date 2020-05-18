@@ -14,7 +14,23 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
 import { Document, Page } from "react-pdf/dist/entry.webpack";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import '../App.css';
 
+const styles = {
+    document: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    container: {
+        margin: 'auto',
+        width: '65%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    }
+}
 class ViewDocument extends Component {
     constructor(props) {
         super(props);
@@ -108,8 +124,10 @@ class ViewDocument extends Component {
 
                                 </Card.Header>
                                 <Card.Body>
+                                    <div style={styles.container}>
                                     <Document
                                         file = {documents.document.fileLink}
+                                        style={styles.document}
                                         onLoadError={console.error}
                                         onLoadSuccess={this.onDocumentLoadSuccess}
                                     >
@@ -118,14 +136,18 @@ class ViewDocument extends Component {
                                                 new Array(numPages),
                                                 (el, index) => (
                                                     <Page
+                                                        className={"page"}
                                                         key={`page_${index + 1}`}
                                                         pageNumber={index + 1}
                                                         scale={1.5}
-                                                    />
+                                                       
+                                                    ></Page>
                                                 ),
                                             )
                                         }
                                     </Document>
+                                    </div>
+                                    
                                 </Card.Body>
                             </Card>
                         }

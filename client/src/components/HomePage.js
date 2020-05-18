@@ -49,7 +49,7 @@ class HomePage extends Component {
                 </Navbar>
                 <Container>
                     <Row>
-                        <Col>
+                        <Col md={6} className="p-2">
                             <Card>
                                 <Card.Header as="h4">My Documents</Card.Header>
                                 {documents.loadingDocuments && <em>Loading documents...</em>}
@@ -71,7 +71,7 @@ class HomePage extends Component {
                             </Card>
                         </Col>
                        
-                        <Col>
+                        <Col md={6} className="p-2">
                             <UploadDocument></UploadDocument>
                         </Col>
                     </Row>

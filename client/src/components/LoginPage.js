@@ -43,8 +43,8 @@ const styles = {
 
     },
     video: {
-        width: "35vw",
-        height: "40vh",
+        width: "40vw",
+        height: "50vh",
       
 
     }
