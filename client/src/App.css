@@ -38,6 +38,6 @@
 }
 
 .page > canvas {
-  max-width: 100%;
-  height: auto !important;
+    max-width: 100%;
+    height: auto !important;
 }
