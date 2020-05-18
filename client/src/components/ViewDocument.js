@@ -25,7 +25,6 @@ const styles = {
     },
     container: {
         margin: 'auto',
-        width: '65%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
@@ -140,7 +139,7 @@ class ViewDocument extends Component {
                                                         key={`page_${index + 1}`}
                                                         pageNumber={index + 1}
                                                         scale={1.5}
-                                                        renderTextLayer={false}
+                                                        renderTextLayer={false} 
                                                        
                                                     ></Page>
                                                 ),
