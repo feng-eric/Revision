@@ -10,7 +10,6 @@ var Document = require('../models/document');
 var User = require('../models/user');
 
 
-
 /**
  * All Routes Requires Authorization To Access
  */
@@ -72,25 +71,6 @@ router.get('/user/:userId', auth, (req, res, next) => {
         res.status(200).send(data);
     })
 })
-
-/**
- * GET Request
- * Request Param: documentId
- * Gets the document based on the documentId
- */
-// router.get('/documentId/:documentId', auth, (req, res, next) => {
-//     Document.findOne({
-//         document_id: req.params.documentId
-//     },
-//     (err, data) => {
-//         if (err) {
-//             console.log(err);
-//             return next(new ErrorHandler(400, err.message));
-//         }
-
-//         res.status(200).send(data);
-//     })
-// })
 
 /**
  * GET Request
