@@ -28,10 +28,10 @@ This project was inspired by an issue I continously ran into when I was helping 
  
 #### Server ####
 After downloading the dependencies, start the server by: 
-Markup :  `npm run start`
+`npm run start`
  
 #### Client ####
 Navigate to the client directory and install the dependencies. Then, run the command:
-Markup : `npm run start`
+`npm run start`
 
  
