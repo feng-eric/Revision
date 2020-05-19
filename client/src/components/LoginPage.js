@@ -5,26 +5,34 @@ import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card'
+import Spinner from 'react-bootstrap/Spinner';
 
-// import BackgroundImage from '/background.png'
 import { userActions } from '../actions';
 
 const styles = {
     background: {
-        backgroundImage: `url(${'/background.png'})`,
+        backgroundImage: `url(${'/background.jpg'})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-
+        position: 'absolute',
         height: '100vh',
-        width: '100%',
+        width: '100vw',
     },
 
-    row: {
-        justifyContent: "center",
-        alignItems: "center",
+    card: {
+        marginTop: '10%',
+        marginBottom: '25%',
+        position: 'relative',
+        height: '100%',
+        alignItems: 'center',
+    },
+    align: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     button: {
@@ -33,19 +41,20 @@ const styles = {
     },
 
     title: {
-        paddingTop: "10%",
-        fontSize: '4vw',
-        letterSpacing: '0.2vw',
+        fontSize: '4rem',
+        fontWeight: '300',
+        lineHeight: '1.2',
         fontFamily: 'Helvetica Neue'  
     }, 
     description: {
-        fontSize: '1vw'
+        // fontSize: '1vw',
+        padding: '2%'
 
     },
     video: {
-        width: "40vw",
-        height: "50vh",
-      
+        width: '90%',
+        height: '50%',
+        margin: '2%'
 
     }
 }
@@ -104,23 +113,25 @@ class LoginPage extends Component {
         return (
                 <div style = {styles.background}>
                     <Container>
-                        <Row style={styles.row}>
-                            <h1 className="display-1" style={styles.title}>Revision</h1>
-                        </Row>
-                        <Row style={styles.row}>
-                            <p className="w-50 text-center" style={styles.description}>Revision is a collaborative resume critiquing platform which allows users to easily upload and share their resume with others for feedback.
+                        <Row>
+                            <Col md={{ span: 8, offset: 2}} xs={{span: 10, offset: 1}}>
+                            <Card style = {styles.card}>
+    
+                                <h1 className="display-1 title" style={styles.title}>Revision</h1>
+ 
+                            <p className="text-center" style={styles.description}>Revision is a collaborative resume critiquing platform which allows users to easily upload and share their resume with others for feedback.
                                 Log in or create a new account, and then upload your resume and share the link with others!
                             </p>
-                        </Row>
                    
-                        <Row style={styles.row}>
+
                             <Button style={styles.button} variant="primary" size="lg" onClick={this.handleOpen}>
                                 Get Started
                             </Button>
-                        </Row>
-                        <Row style={styles.row}>
                             <embed type="video/webm" style={styles.video} src="https://www.youtube.com/embed/dQMEcFemVak?rel=0"/>
+                        </Card>
+                            </Col>
                         </Row>
+                        
                     </Container>
                     <Modal centered show={this.state.showModal} onHide={this.handleClose}>
                         <Modal.Header closeButton>
@@ -144,6 +155,19 @@ class LoginPage extends Component {
                                 </div>
                                 <div className="text-center pt-2">
                                     <button className="btn btn-primary">Login</button>
+                                    {loggingIn &&
+                                        <Button variant="primary" disabled>
+                                        <Spinner
+                                          as="span"
+                                          animation="grow"
+                                          size="sm"
+                                          role="status"
+                                          aria-hidden="true"
+                                        />
+                                        Loading...
+                                      </Button>
+                                        
+                                    }
                                     <Link to="/register" className="btn btn-link">Register</Link>
                                 </div>
                             </form>

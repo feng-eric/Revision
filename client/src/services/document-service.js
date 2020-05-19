@@ -20,7 +20,7 @@ function uploadDocument(userId, documentName, formData) {
             history.push('/login');
             window.location.reload(true);
         }
-        const error = err.response.data && err.response.data.error || err.response.statusText;
+        const error = (err.response.data && err.response.data.error) || (err.response.statusText);
         return Promise.reject(error);
     })
 }
@@ -36,7 +36,7 @@ function getDocumentsByUser(userId) {
             history.push('/login');
             window.location.reload(true);
         }
-        const error = err.response.data && err.response.data.error || err.response.statusText;
+        const error = (err.response.data && err.response.data.error) || (err.response.statusText);
         return Promise.reject(error);
     })
 }
@@ -52,21 +52,13 @@ function getDocumentById(docId) {
             history.push('/login');
             window.location.reload(true);
         }
-        const error = err.response.data && err.response.data.error || err.response.statusText;
+        const error = (err.response.data && err.response.data.error) || (err.response.statusText);
         return Promise.reject(error);
     })
 }
 
+// separate method for logging out info easily for development
 function handleResponse(response) {
-    const data = response.data;
-    console.log(data);
-    // if (response.status !== 200) {
-    //     if (response.status === 401) {
-    //         userService.logout();
-    //         window.location.reload(true)
-    //     }
-    //     const error = (data && data.message) || response.statusText;
-    //     return Promise.reject(error);
-    // }
-    return data;
+   
+    return response.data;
 }

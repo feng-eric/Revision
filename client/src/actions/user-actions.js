@@ -7,8 +7,7 @@ export const userActions = {
     login,
     logout,
     register,
-    getAll,
-    delete: _delete
+    getAll
 };
 
 function login(username, password, from) {
@@ -77,21 +76,4 @@ function getAll() {
     function request() { return { type: userActionConstants.GETALL_REQUEST } }
     function success(users) { return { type: userActionConstants.GETALL_SUCCESS, users } }
     function failure(error) { return { type: userActionConstants.GETALL_FAILURE, error } }
-}
-
-function _delete(id) {
-    return dispatch => {
-        dispatch(request(id));
-
-        // userService.delete(id)
-        //     .then(
-        //         user => dispatch(success(id)),
-        //         error => dispatch(failure(id, error.toString()))
-        //     );
-
-    };
-
-    function request(id) { return { type: userActionConstants.DELETE_REQUEST, id } }
-    function success(id) { return { type: userActionConstants.DELETE_SUCCESS, id } }
-    function failure(id, error) { return { type: userActionConstants.DELETE_FAILURE, id, error } }
 }

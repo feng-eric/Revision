@@ -114,6 +114,7 @@ class ViewDocument extends Component {
                 </Navbar>
                 <Container>
                     <Row className="justify-content-center">
+                        <Col>
                         { documents.document &&
                             <Card>
                                 <Card.Header> 
@@ -152,6 +153,7 @@ class ViewDocument extends Component {
                                 </Card.Body>
                             </Card>
                         }
+                        </Col>
                     </Row>
                     <Row className="mt-4">
                         <Col>
