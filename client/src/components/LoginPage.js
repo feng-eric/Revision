@@ -154,19 +154,19 @@ class LoginPage extends Component {
                                     }
                                 </div>
                                 <div className="text-center pt-2">
-                                    <button className="btn btn-primary">Login</button>
-                                    {loggingIn &&
-                                        <Button variant="primary" disabled>
-                                        <Spinner
-                                          as="span"
-                                          animation="grow"
-                                          size="sm"
-                                          role="status"
-                                          aria-hidden="true"
-                                        />
-                                        Loading...
-                                      </Button>
-                                        
+                                    {loggingIn 
+                                        ?   <Button variant="primary" disabled>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="grow"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                />
+                                                Loading...
+                                            </Button>
+                                        :
+                                            <button className="btn btn-primary">Login</button>
                                     }
                                     <Link to="/register" className="btn btn-link">Register</Link>
                                 </div>
