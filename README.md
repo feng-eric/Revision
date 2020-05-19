@@ -7,6 +7,10 @@ A collaborative resume critiquing platform which allows users to upload &amp; sh
 [![Revision Demonstration](https://i.imgur.com/G5d90RD.png)](https://www.youtube.com/watch?v=dQMEcFemVak)
 
 ## What it Features ##
+
+#### User Authentication ####
+When first navigating to the page, it will inform the user to either log in or register as a new user. After creating an account and successfully logs in, a JWT token will be generated for the user's session which will allow the user to access the application and it's features.
+
 #### Uploading Documents ####
 Users are able to upload a PDF document, giving a document name and description of their choice. After it is uploaded, it will show up in their list of documents.
  
