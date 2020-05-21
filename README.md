@@ -27,6 +27,13 @@ The frontend of the project is built using **React.js** and **Redux**, consistin
 ## Inspiration ##
  
 This project was inspired by an issue I continously ran into when I was helping others edit their resume or having others edit mine. With Google Drive not really optimized for leaving comments on uploaded PDF documents, I often found myself having to send screenshots of my resume through Messenger to others. I wanted to make an application where people are easily able to upload &amp; share different versions of their resume and be able to see all their comments in one place. It was a cool project that allowed me to solve an issue that I was having personally while learning more about the technologies I was curious about learning more in!
+
+## What's Next ##
+
+- [ ] Integrate Google sign in so people can log in with their google account.
+- [ ] Improve commenting feature by allowing users to highlight and annotate PDF.
+- [ ] Add ability to select explictly who you want to share your document with.
+- [ ] Enhance user home page by also displaying the documents that others have shared with you.
  
 ## Local Development Instructions ##
  
