@@ -25,7 +25,7 @@ const styles = {
 
     card: {
         paddingTop: '10%',
-        paddingBottom: '5%',
+        paddingBottom: '10%',
         position: 'relative',
         alignItems: 'center',
     },
@@ -46,13 +46,14 @@ const styles = {
         fontFamily: 'Helvetica Neue'  
     }, 
     description: {
-        padding: '2%'
+        padding: '2%',
+        width: '80%'
 
     },
 
     video: {
-          width: "40vw",
-          height: "25.3125vw"
+          width: "35vw",
+          height: "20vw"
 
     }
 }
@@ -117,7 +118,7 @@ class LoginPage extends Component {
     
                                 <h1 className="display-1 title" style={styles.title}>Revision</h1>
  
-                            <p className="text-center" style={styles.description}>Revision is a collaborative resume critiquing platform which allows users to easily upload and share their resume with others for feedback.
+                            <p className="text-center" style={styles.description}>Revision is a collaborative resume critiquing platform which allows users to upload and share their resume with others for feedback.
                                 Log in or create a new account, and then upload your resume and share the link with others!
                             </p>
                    
