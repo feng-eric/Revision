@@ -24,10 +24,9 @@ const styles = {
     },
 
     card: {
-        marginTop: '10%',
-        marginBottom: '25%',
+        paddingTop: '10%',
+        paddingBottom: '5%',
         position: 'relative',
-        height: '100%',
         alignItems: 'center',
     },
     align: {
@@ -47,14 +46,13 @@ const styles = {
         fontFamily: 'Helvetica Neue'  
     }, 
     description: {
-        // fontSize: '1vw',
         padding: '2%'
 
     },
+
     video: {
-        width: '90%',
-        height: '50%',
-        margin: '2%'
+          width: "40vw",
+          height: "25.3125vw"
 
     }
 }
@@ -112,7 +110,7 @@ class LoginPage extends Component {
 
         return (
                 <div style = {styles.background}>
-                    <Container>
+                    <Container style = {styles.container}>
                         <Row>
                             <Col md={{ span: 8, offset: 2}} xs={{span: 10, offset: 1}}>
                             <Card style = {styles.card}>
@@ -127,7 +125,7 @@ class LoginPage extends Component {
                             <Button style={styles.button} variant="primary" size="lg" onClick={this.handleOpen}>
                                 Get Started
                             </Button>
-                            <iframe style={styles.video} src="https://www.youtube.com/embed/dQMEcFemVak?rel=0"/>
+                            <iframe style={styles.video} src="https://www.youtube.com/embed/dQMEcFemVak?rel=0" frameBorder="0"/>
                         </Card>
                             </Col>
                         </Row>
