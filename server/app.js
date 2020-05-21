@@ -40,10 +40,6 @@ app.use('/users', usersRouter);
 app.use('/documents', documentRouter);
 app.use('/comments', commentRouter);
 
-app.get('/.well-known/acme-challenge/:content', function(req, res) {
-  res.send(req.content)
-})
-
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
