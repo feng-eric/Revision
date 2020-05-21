@@ -127,7 +127,7 @@ class LoginPage extends Component {
                             <Button style={styles.button} variant="primary" size="lg" onClick={this.handleOpen}>
                                 Get Started
                             </Button>
-                            <embed type="video/webm" style={styles.video} src="https://www.youtube.com/embed/dQMEcFemVak?rel=0"/>
+                            <iframe style={styles.video} src="https://www.youtube.com/embed/dQMEcFemVak?rel=0"/>
                         </Card>
                             </Col>
                         </Row>
