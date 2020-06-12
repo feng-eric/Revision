@@ -77,18 +77,15 @@ class ViewDocument extends Component {
 
         const { documents, user } = this.props;
         const docId = documents.document._id;
-
-        this.setState({
-            comment: ''
-        })
        
         if (user.user.name && this.state.comment) {
             this.props.uploadCommentForDoc(docId, user.user.name, this.state.comment);
-            //TODO: reset form after submit
-        }
-          
 
-        
+            // clear the comment from the text area 
+            this.setState({
+                comment: ''
+            });
+        }    
     }
 
     render() {
@@ -191,7 +188,7 @@ class ViewDocument extends Component {
                                         <a>{user.user.name}</a>
                                     </Card.Header>
                                     <Card.Body>
-                                    <Form.Control id="comment" as="textarea" rows="4" onChange={this.handleChange}/>
+                                    <Form.Control id="comment" value={this.state.comment} as="textarea" rows="4" onChange={this.handleChange}/>
                                     <Button className="mt-2 float-right" variant="primary" type="submit" onClick={this.handleSubmit}>
                                         Submit
                                     </Button>

@@ -67,7 +67,6 @@ class RegisterPage extends Component {
     }
 
     render() {
-        const { registering  } = this.props;
         const { user, submitted } = this.state;
         return (
             <div>

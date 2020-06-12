@@ -3,7 +3,6 @@ import { documentActions } from '../actions';
 import { connect } from 'react-redux';
 import bsCustomFileInput from 'bs-custom-file-input';
 
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
@@ -19,15 +18,13 @@ class UploadDocument extends Component {
             documentName: '',
             description: '',
             submitted: false,
-            showModal: false
+            showModal: false,
+            visible: false
         };
 
-       
         this.handleChange = this.handleChange.bind(this);
         this.handleFileChange = this.handleFileChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
     }
 
     componentDidMount() {
@@ -35,9 +32,12 @@ class UploadDocument extends Component {
     }
     
     handleFileChange(event) {
+        const fileForUpload = event.target.files[0];
+        
         this.setState({
-            selectedFile: event.target.files[0]
+            selectedFile: fileForUpload
         })
+        
     }
 
     handleChange(event) {
@@ -56,19 +56,9 @@ class UploadDocument extends Component {
 
     
             this.props.uploadDocument(userId, this.state.documentName, this.state.selectedFile, this.state.description);
-            this.handleClose();
         }
     }
 
-    handleClose() {
-        this.setState({ showModal: false });
-    }
-
-    handleOpen() {
-        this.setState({ showModal: true });
-    }
-
-    
     render() {
         const { selectedFile, documentName, description } = this.state;
         let fileText = selectedFile ? selectedFile.name : "Select File";
@@ -84,23 +74,22 @@ class UploadDocument extends Component {
                         Upload New Document
                     </Card.Header>
                     <Card.Body>
-                    {/* <Button variant="primary"  onClick={this.handleOpen}>
-                        Upload Document
-                    </Button> */}
+        
                     <Form onSubmit={this.handleSubmit}>
                             <Form.Group onChange={this.handleChange} value={documentName} controlId="documentName">
                                 <Form.Label>Document Name</Form.Label>
-                                <Form.Control required type="text" autocomplete="off" placeholder="Document Name"/>
+                                <Form.Control required type="text" autoComplete="off" placeholder="Document Name"/>
                             </Form.Group>
                             <Form.Group value={description} onChange={this.handleChange} controlId="description">
                                 <Form.Label>Document Description</Form.Label>
-                                <Form.Control type="text" autocomplete="off" placeholder="Document Description"/>
+                                <Form.Control type="text" autoComplete="off" placeholder="Document Description"/>
                             </Form.Group>
-                            <Form.Label>Document</Form.Label>
+                            <Form.Label>Document (PDF File)</Form.Label>
                             <Form.File
                                 id="selectedFile"
                                 label={fileText}
                                 custom
+                                accept="application/pdf"
                                 onChange={this.handleFileChange}
                             />
                             <div className="text-center mt-4">
@@ -111,39 +100,8 @@ class UploadDocument extends Component {
                             
                         </Form>
                     </Card.Body>
-                    
                 </Card>
-
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Upload Document</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {/* <Form onSubmit={this.handleSubmit}>
-                            <Form.Group onChange={this.handleChange} value={documentName} controlId="documentName">
-                                <Form.Label>Document Name</Form.Label>
-                                <Form.Control required type="text" placeholder="Document Name"/>
-                            </Form.Group>
-                            <Form.Group value={description} onChange={this.handleChange} controlId="description">
-                                <Form.Label>Document Description</Form.Label>
-                                <Form.Control type="text" placeholder="Document Description"/>
-                            </Form.Group>
-                            <Form.Label>Document</Form.Label>
-                            <Form.File
-                                id="selectedFile"
-                                label={fileText}
-                                custom
-                                onChange={this.handleFileChange}
-                            />
-                            
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
-                        </Form> */}
-                    </Modal.Body>
-                </Modal>
-            </>
-            
+            </>  
         )
     }
 }
