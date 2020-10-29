@@ -115,7 +115,7 @@ class ViewDocument extends Component {
                         { documents.document &&
                             <Card>
                                 <Card.Header> 
-                                    <h3>Document Name: { documents.document.document_name } </h3>
+                                    <h3>Title: { documents.document.document_name } </h3>
                                     <h5>Description: { documents.document.description }</h5>
                                     <h5>Created: {moment(documents.document.createdAt).format('MMM Do YYYY')}</h5>
 

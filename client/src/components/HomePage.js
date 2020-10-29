@@ -56,16 +56,16 @@ class HomePage extends Component {
                                 {documents.error && <span className="text-danger">ERROR: {documents.error}</span>}
                                 {documents.documents &&
                                     <ListGroup variant="flush">
-                                        {documents.documents.map((doc) => 
-                                        <ListGroup.Item action variant="light" key={doc._id}>
-                                            <Link to={{
-                                                pathname: "/document/" + doc._id,
-                                                state: {
-                                                    documentId: doc._id
-                                                }
-                                            }}>{doc.document_name + ' ' + doc.description}</Link>
-                                        </ListGroup.Item>
-                                        )}
+                                        {documents.documents.length ? documents.documents.map((doc) => 
+                                            <ListGroup.Item action variant="light" key={doc._id}>
+                                                <Link to={{
+                                                    pathname: "/document/" + doc._id,
+                                                    state: {
+                                                        documentId: doc._id
+                                                    }
+                                                }}>{doc.document_name + ' ' + doc.description}</Link>
+                                            </ListGroup.Item>
+                                        ) : <div className="ml-4">Upload a new document!</div>}
                                     </ListGroup>
                                 }   
                             </Card>
