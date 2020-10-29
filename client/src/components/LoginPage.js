@@ -65,7 +65,7 @@ class LoginPage extends Component {
         // this.props.logout();
 
         this.state = {
-            username: '',
+            email: '',
             password: '',
             submitted: false,
             showModal: false
@@ -86,11 +86,11 @@ class LoginPage extends Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { username, password} = this.state;
-        if (username && password) {
+        const { email, password} = this.state;
+        if (email && password) {
             let { from } = this.props.location.state || {from: {pathname: '/'}};
             console.log(from);
-            this.props.login(username, password, from)
+            this.props.login(email, password, from)
               
         }
     }
@@ -106,7 +106,7 @@ class LoginPage extends Component {
 
     render() {
         const { loggingIn } = this.props;
-        const { username, password, submitted } = this.state;
+        const { email, password, submitted } = this.state;
         
 
         return (
@@ -138,11 +138,11 @@ class LoginPage extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             <form name = "form" onSubmit= {this.handleSubmit}>
-                                <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                                    <label htmlFor="username">Username</label>
-                                    <input type="text" className="form-control" name="username" value = {username} onChange = {this.handleChange}/>
-                                    {submitted && !username &&
-                                        <div className="help-block">Username is required</div>
+                                <div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
+                                    <label htmlFor="email">Email</label>
+                                    <input type="text" className="form-control" name="email" value = {email} onChange = {this.handleChange}/>
+                                    {submitted && !email &&
+                                        <div className="help-block">Email is required</div>
                                     }
                                 </div>
                                 <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
